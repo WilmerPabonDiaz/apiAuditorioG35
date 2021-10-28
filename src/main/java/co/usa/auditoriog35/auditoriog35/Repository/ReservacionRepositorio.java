@@ -22,11 +22,11 @@ public class ReservacionRepositorio {
         return reservacionCrudRepositorio.findById(id);
     }
 
-    public Reservacion guardar(Reservacion guardarReservacion){
-        return reservacionCrudRepositorio.save(guardarReservacion);
+    public Reservacion guardar(Reservacion reservacion){
+        return reservacionCrudRepositorio.save(reservacion);
     }
 
-    public void borrar(Reservacion borrarReservacion){
-        reservacionCrudRepositorio.delete(borrarReservacion);
+    public void borrar(Reservacion reservacion){
+        reservacionCrudRepositorio.delete(reservacion);
     }
 }

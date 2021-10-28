@@ -26,8 +26,8 @@ public class CalificacionServicio {
         if (calificacion.getIdScore()==null) {
             return calificacionRepositorio.guardar(calificacion);
         } else {
-            Optional<Calificacion> e=calificacionRepositorio.mostrarUno(calificacion.getIdScore());
-            if (e.isEmpty()) {
+            Optional<Calificacion> respuesta=calificacionRepositorio.mostrarUno(calificacion.getIdScore());
+            if (respuesta.isEmpty()) {
                 return calificacionRepositorio.guardar(calificacion);
             } else {
                 return calificacion;
@@ -37,16 +37,16 @@ public class CalificacionServicio {
 
     public Calificacion actualizar(Calificacion calificacion){
         if (calificacion.getIdScore()!=null) {
-            Optional<Calificacion> e=calificacionRepositorio.mostrarUno(calificacion.getIdScore());
-            if (!e.isEmpty()) {
+            Optional<Calificacion> respuesta=calificacionRepositorio.mostrarUno(calificacion.getIdScore());
+            if (!respuesta.isEmpty()) {
                 if(calificacion.getQualification()!=null){
-                    e.get().setQualification(calificacion.getQualification());
+                    respuesta.get().setQualification(calificacion.getQualification());
                 }
                 if(calificacion.getPrice()!=null){
-                    e.get().setPrice(calificacion.getPrice());
+                    respuesta.get().setPrice(calificacion.getPrice());
                 }
-                calificacionRepositorio.guardar(e.get());
-                return e.get();
+                calificacionRepositorio.guardar(respuesta.get());
+                return respuesta.get();
             } else {
                 return calificacion;
             }
@@ -57,10 +57,12 @@ public class CalificacionServicio {
     }
 
     public boolean borrar(int id){
-        Boolean aBoolean = mostarUno(id).map(calificacion -> {
-            calificacionRepositorio.borrar(calificacion);
+        Optional<Calificacion> consulta=calificacionRepositorio.mostrarUno(id);
+        if (!consulta.isEmpty()) {
+            calificacionRepositorio.borrar(consulta.get());
             return true;
-        }).orElse(false);
-        return aBoolean;
+        }
+        return false;
     }
+
 }

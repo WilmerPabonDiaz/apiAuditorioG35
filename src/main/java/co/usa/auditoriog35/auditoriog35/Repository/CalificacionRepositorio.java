@@ -22,11 +22,11 @@ public class CalificacionRepositorio {
         return calificacionCrudRepositorio.findById(id);
     }
 
-    public Calificacion guardar(Calificacion guardarCalificacion){
-        return calificacionCrudRepositorio.save(guardarCalificacion);
+    public Calificacion guardar(Calificacion calificacion){
+        return calificacionCrudRepositorio.save(calificacion);
     }
 
-    public void borrar(Calificacion borrarCalificacion){
-        calificacionCrudRepositorio.delete(borrarCalificacion);
+    public void borrar(Calificacion calificacion){
+        calificacionCrudRepositorio.delete(calificacion);
     }
 }

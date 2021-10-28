@@ -26,8 +26,8 @@ public class MensajeServicio {
         if (mensaje.getIdMessage()==null) {
             return mensajeRepositorio.guardar(mensaje);
         } else {
-            Optional<Mensaje> e=mensajeRepositorio.mostrarUno(mensaje.getIdMessage());
-            if (e.isEmpty()) {
+            Optional<Mensaje> consulta=mensajeRepositorio.mostrarUno(mensaje.getIdMessage());
+            if (consulta.isEmpty()) {
                 return mensajeRepositorio.guardar(mensaje);
             } else {
                 return mensaje;
@@ -37,13 +37,13 @@ public class MensajeServicio {
 
     public Mensaje actualizar(Mensaje mensaje){
         if (mensaje.getIdMessage()!=null) {
-            Optional<Mensaje> e=mensajeRepositorio.mostrarUno(mensaje.getIdMessage());
-            if (!e.isEmpty()) {
+            Optional<Mensaje> respuesta=mensajeRepositorio.mostrarUno(mensaje.getIdMessage());
+            if (!respuesta.isEmpty()) {
                 if(mensaje.getMessageText()!=null){
-                    e.get().setMessageText(mensaje.getMessageText());
+                    respuesta.get().setMessageText(mensaje.getMessageText());
                 }
-                mensajeRepositorio.guardar(e.get());
-                return e.get();
+                mensajeRepositorio.guardar(respuesta.get());
+                return respuesta.get();
             } else {
                 return mensaje;
             }
@@ -54,10 +54,11 @@ public class MensajeServicio {
     }
 
     public boolean borrar(int id){
-        Boolean aBoolean = mostarUno(id).map(mensaje -> {
-            mensajeRepositorio.borrar(mensaje);
+        Optional<Mensaje> consulta=mensajeRepositorio.mostrarUno(id);
+        if (!consulta.isEmpty()) {
+            mensajeRepositorio.borrar(consulta.get());
             return true;
-        }).orElse(false);
-        return aBoolean;
+        }
+        return false;
     }
 }

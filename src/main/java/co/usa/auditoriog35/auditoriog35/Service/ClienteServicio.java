@@ -26,8 +26,8 @@ public class ClienteServicio {
         if (cliente.getIdClient()==null) {
             return clienteRepositorio.guardar(cliente);
         } else {
-            Optional<Cliente> e=clienteRepositorio.mostrarUno(cliente.getIdClient());
-            if (e.isEmpty()) {
+            Optional<Cliente> respuesta=clienteRepositorio.mostrarUno(cliente.getIdClient());
+            if (respuesta.isEmpty()) {
                 return clienteRepositorio.guardar(cliente);
             } else {
                 return cliente;
@@ -37,19 +37,19 @@ public class ClienteServicio {
 
     public Cliente actualizar(Cliente cliente){
         if (cliente.getIdClient()!=null) {
-            Optional<Cliente> e=clienteRepositorio.mostrarUno(cliente.getIdClient());
-            if (!e.isEmpty()) {
+            Optional<Cliente> respuesta=clienteRepositorio.mostrarUno(cliente.getIdClient());
+            if (!respuesta.isEmpty()) {
                 if(cliente.getEmail()!=null){
-                    e.get().setEmail(cliente.getEmail());
+                    respuesta.get().setEmail(cliente.getEmail());
                 }
                 if(cliente.getPassword()!=null){
-                    e.get().setPassword(cliente.getPassword());
+                    respuesta.get().setPassword(cliente.getPassword());
                 }
                 if(cliente.getName()!=null){
-                    e.get().setName(cliente.getName());
+                    respuesta.get().setName(cliente.getName());
                 }
-                clienteRepositorio.guardar(e.get());
-                return e.get();
+                clienteRepositorio.guardar(respuesta.get());
+                return respuesta.get();
             } else {
                 return cliente;
             }
@@ -60,10 +60,11 @@ public class ClienteServicio {
     }
 
     public boolean borrar(int id){
-        Boolean aBoolean = mostarUno(id).map(cliente -> {
-            clienteRepositorio.borrar(cliente);
+        Optional<Cliente> consulta=clienteRepositorio.mostrarUno(id);
+        if (!consulta.isEmpty()) {
+            clienteRepositorio.borrar(consulta.get());
             return true;
-        }).orElse(false);
-        return aBoolean;
+        }
+        return false;
     }
 }

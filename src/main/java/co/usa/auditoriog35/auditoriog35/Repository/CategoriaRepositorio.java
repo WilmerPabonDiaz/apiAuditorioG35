@@ -22,11 +22,11 @@ public class CategoriaRepositorio {
         return categoriaCrudRepositorio.findById(id);
     }
 
-    public Categoria guardar(Categoria guardarCategoria){
-        return categoriaCrudRepositorio.save(guardarCategoria);
+    public Categoria guardar(Categoria categoria){
+        return categoriaCrudRepositorio.save(categoria);
     }
 
-    public void borrar(Categoria borrarCategoria){
-        categoriaCrudRepositorio.delete(borrarCategoria);
+    public void borrar(Categoria categoria){
+        categoriaCrudRepositorio.delete(categoria);
     }
 }

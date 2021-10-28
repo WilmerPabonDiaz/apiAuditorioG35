@@ -22,11 +22,11 @@ public class ClienteRepositorio {
         return clienteCrudRepositorio.findById(id);
     }
 
-    public Cliente guardar(Cliente guardarCliente){
-        return clienteCrudRepositorio.save(guardarCliente);
+    public Cliente guardar(Cliente cliente){
+        return clienteCrudRepositorio.save(cliente);
     }
 
-    public void borrar(Cliente borrarCliente){
-        clienteCrudRepositorio.delete(borrarCliente);
+    public void borrar(Cliente cliente){
+        clienteCrudRepositorio.delete(cliente);
     }
 }

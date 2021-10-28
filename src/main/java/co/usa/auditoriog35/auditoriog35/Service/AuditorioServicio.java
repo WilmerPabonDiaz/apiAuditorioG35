@@ -26,8 +26,8 @@ public class AuditorioServicio {
         if (auditorio.getId()==null) {
             return auditorioRepositorio.guardar(auditorio);
         } else {
-            Optional<Auditorio> e=auditorioRepositorio.mostrarUno(auditorio.getId());
-            if (e.isEmpty()) {
+            Optional<Auditorio> respuesta=auditorioRepositorio.mostrarUno(auditorio.getId());
+            if (respuesta.isEmpty()) {
                 return auditorioRepositorio.guardar(auditorio);
             } else {
                 return auditorio;
@@ -37,25 +37,25 @@ public class AuditorioServicio {
 
     public Auditorio actualizar(Auditorio auditorio){
         if (auditorio.getId()!=null) {
-            Optional<Auditorio> e=auditorioRepositorio.mostrarUno(auditorio.getId());
-            if (!e.isEmpty()) {
+            Optional<Auditorio> respuesta=auditorioRepositorio.mostrarUno(auditorio.getId());
+            if (!respuesta.isEmpty()) {
                 if(auditorio.getName()!=null){
-                    e.get().setName(auditorio.getName());
+                    respuesta.get().setName(auditorio.getName());
                 }
                 if (auditorio.getOwner()!=null) {
-                    e.get().setOwner(auditorio.getOwner());
+                    respuesta.get().setOwner(auditorio.getOwner());
                 }
                 if (auditorio.getCapacity()!=null) {
-                    e.get().setCapacity(auditorio.getCapacity());
+                    respuesta.get().setCapacity(auditorio.getCapacity());
                 }
                 if (auditorio.getDescription()!=null) {
-                    e.get().setDescription(auditorio.getDescription());
+                    respuesta.get().setDescription(auditorio.getDescription());
                 }
                 if (auditorio.getCategory()!=null) {
-                    e.get().setCategory(auditorio.getCategory());
+                    respuesta.get().setCategory(auditorio.getCategory());
                 }
-                auditorioRepositorio.guardar(e.get());
-                return e.get();
+                auditorioRepositorio.guardar(respuesta.get());
+                return respuesta.get();
             } else {
                 return auditorio;
             }
@@ -66,10 +66,11 @@ public class AuditorioServicio {
     }
 
     public boolean borrar(int id){
-        Boolean aBoolean = mostarUno(id).map(auditorio -> {
-            auditorioRepositorio.borrar(auditorio);
+        Optional<Auditorio> consulta=auditorioRepositorio.mostrarUno(id);
+        if (!consulta.isEmpty()) {
+            auditorioRepositorio.borrar(consulta.get());
             return true;
-        }).orElse(false);
-        return aBoolean;
+        }
+        return false;
     }
 }

@@ -38,16 +38,16 @@ public class CategoriaServicio {
 
     public Categoria actualizar(Categoria categoria){
         if (categoria.getId()!=null) {
-            Optional<Categoria> e=categoriaRepositorio.mostrarUno(categoria.getId());
-            if (!e.isEmpty()) {
+            Optional<Categoria> respuesta=categoriaRepositorio.mostrarUno(categoria.getId());
+            if (!respuesta.isEmpty()) {
                 if(categoria.getName()!=null){
-                    e.get().setName(categoria.getName());
+                    respuesta.get().setName(categoria.getName());
                 }
                 if (categoria.getDescription()!=null) {
-                    e.get().setDescription(categoria.getDescription());
+                    respuesta.get().setDescription(categoria.getDescription());
                 }
-                categoriaRepositorio.guardar(e.get());
-                return e.get();
+                categoriaRepositorio.guardar(respuesta.get());
+                return respuesta.get();
             } else {
                 return categoria;
             }
@@ -58,10 +58,11 @@ public class CategoriaServicio {
     }
 
     public boolean borrar(int id){
-        Boolean aBoolean = mostarUno(id).map(categoria -> {
-            categoriaRepositorio.borrar(categoria);
+        Optional<Categoria> consulta=categoriaRepositorio.mostrarUno(id);
+        if (!consulta.isEmpty()) {
+            categoriaRepositorio.borrar(consulta.get());
             return true;
-        }).orElse(false);
-        return aBoolean;
+        }
+        return false;
     }
 }

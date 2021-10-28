@@ -22,11 +22,11 @@ public class AdministradoresRepositorio {
         return administradoresCrudRepositorio.findById(id);
     }
 
-    public Administradores guardar(Administradores guardarAdministradores){
-        return administradoresCrudRepositorio.save(guardarAdministradores);
+    public Administradores guardar(Administradores administradores){
+        return administradoresCrudRepositorio.save(administradores);
     }
 
-    public void borrar(Administradores borrarAdministradores){
-        administradoresCrudRepositorio.delete(borrarAdministradores);
+    public void borrar(Administradores administradores){
+        administradoresCrudRepositorio.delete(administradores);
     }
 }

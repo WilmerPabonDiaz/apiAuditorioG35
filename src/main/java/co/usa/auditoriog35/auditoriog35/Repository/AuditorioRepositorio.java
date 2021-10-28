@@ -22,11 +22,11 @@ public class AuditorioRepositorio {
         return auditorioCrudRepositorio.findById(id);
     }
 
-    public Auditorio guardar(Auditorio guardarAuditorio){
-        return auditorioCrudRepositorio.save(guardarAuditorio);
+    public Auditorio guardar(Auditorio auditorio){
+        return auditorioCrudRepositorio.save(auditorio);
     }
 
-    public void borrar(Auditorio borrarAuditorio){
-        auditorioCrudRepositorio.delete(borrarAuditorio);
+    public void borrar(Auditorio auditorio){
+        auditorioCrudRepositorio.delete(auditorio);
     }
 }

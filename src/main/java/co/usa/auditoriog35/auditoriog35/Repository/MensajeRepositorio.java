@@ -22,11 +22,11 @@ public class MensajeRepositorio {
         return mensajeCrudRepositorio.findById(id);
     }
 
-    public Mensaje guardar(Mensaje guardarMensaje){
-        return mensajeCrudRepositorio.save(guardarMensaje);
+    public Mensaje guardar(Mensaje mensaje){
+        return mensajeCrudRepositorio.save(mensaje);
     }
 
-    public void borrar(Mensaje borrarMensaje){
-        mensajeCrudRepositorio.delete(borrarMensaje);
+    public void borrar(Mensaje mensaje){
+        mensajeCrudRepositorio.delete(mensaje);
     }
 }

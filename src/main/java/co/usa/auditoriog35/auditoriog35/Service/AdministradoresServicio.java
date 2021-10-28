@@ -26,8 +26,8 @@ public class AdministradoresServicio {
         if (administradores.getIdUser()==null) {
             return administradoresRepositorio.guardar(administradores);
         } else {
-            Optional<Administradores> e=administradoresRepositorio.mostrarUno(administradores.getIdUser());
-            if (e.isEmpty()) {
+            Optional<Administradores> respuesta=administradoresRepositorio.mostrarUno(administradores.getIdUser());
+            if (respuesta.isEmpty()) {
                 return administradoresRepositorio.guardar(administradores);
             } else {
                 return administradores;
@@ -37,19 +37,19 @@ public class AdministradoresServicio {
 
     public Administradores actualizar(Administradores administradores){
         if (administradores.getIdUser()!=null) {
-            Optional<Administradores> e=administradoresRepositorio.mostrarUno(administradores.getIdUser());
-            if (!e.isEmpty()) {
+            Optional<Administradores> respuesta=administradoresRepositorio.mostrarUno(administradores.getIdUser());
+            if (!respuesta.isEmpty()) {
                 if(administradores.getEmail()!=null){
-                    e.get().setEmail(administradores.getEmail());
+                    respuesta.get().setEmail(administradores.getEmail());
                 }
                 if(administradores.getPassword()!=null){
-                    e.get().setPassword(administradores.getPassword());
+                    respuesta.get().setPassword(administradores.getPassword());
                 }
                 if(administradores.getName()!=null){
-                    e.get().setName(administradores.getName());
+                    respuesta.get().setName(administradores.getName());
                 }
-                administradoresRepositorio.guardar(e.get());
-                return e.get();
+                administradoresRepositorio.guardar(respuesta.get());
+                return respuesta.get();
             } else {
                 return administradores;
             }
@@ -60,10 +60,11 @@ public class AdministradoresServicio {
     }
 
     public boolean borrar(int id){
-        Boolean aBoolean = mostarUno(id).map(administradores -> {
-            administradoresRepositorio.borrar(administradores);
+        Optional<Administradores> consulta=administradoresRepositorio.mostrarUno(id);
+        if (!consulta.isEmpty()) {
+            administradoresRepositorio.borrar(consulta.get());
             return true;
-        }).orElse(false);
-        return aBoolean;
+        }
+        return false;
     }
 }
