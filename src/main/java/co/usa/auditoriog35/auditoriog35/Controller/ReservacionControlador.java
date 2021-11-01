@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.usa.auditoriog35.auditoriog35.Model.ContadorCliente;
 import co.usa.auditoriog35.auditoriog35.Model.Reservacion;
+import co.usa.auditoriog35.auditoriog35.Model.StatusReservas;
 import co.usa.auditoriog35.auditoriog35.Service.ReservacionServicio;
 
 
@@ -57,4 +59,18 @@ public class ReservacionControlador {
         return reservacionServicio.borrar(id);
     }
     
+    @GetMapping("/report-status")
+    public StatusReservas getEstadoReservas(){
+        return reservacionServicio.reportesStatusServicio();
+    }
+
+    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
+    public List<Reservacion> getReservasTiempo(@PathVariable("dateOne")String dateOne, @PathVariable("dateTwo") String dateTwo){
+        return reservacionServicio.reporteTiempoServicio(dateOne, dateTwo);
+    }
+
+    @GetMapping("/report-clients")
+    public List<ContadorCliente> getClientes(){
+        return reservacionServicio.reporteClienteServicio();
+    }
 }

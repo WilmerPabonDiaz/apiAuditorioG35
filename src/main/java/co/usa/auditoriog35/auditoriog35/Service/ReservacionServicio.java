@@ -1,12 +1,18 @@
 package co.usa.auditoriog35.auditoriog35.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.usa.auditoriog35.auditoriog35.Model.ContadorCliente;
 import co.usa.auditoriog35.auditoriog35.Model.Reservacion;
+import co.usa.auditoriog35.auditoriog35.Model.StatusReservas;
 import co.usa.auditoriog35.auditoriog35.Repository.ReservacionRepositorio;
 
 /**
@@ -103,4 +109,48 @@ public class ReservacionServicio {
         }
         return false;
     }
+
+    /**
+     * Metodo que permite obtener el tañano de una lista para realizar el conteo de reservaciones 
+     * completadas y canceladas
+     * @return el tamaño de la lista tanto para las reservas canceladas como para las completadas
+     */
+    public StatusReservas reportesStatusServicio(){
+        List<Reservacion>completed=reservacionRepositorio.reservacionStatusRepositorio("completed");
+        List<Reservacion>cancelled=reservacionRepositorio.reservacionStatusRepositorio("cancelled");
+        return new StatusReservas(completed.size(), cancelled.size());
+    }
+
+    /**
+     * Metodo que permite obtener un reporte de reservaciones de acuerdo a a dos fechas dadas
+     * @param dateOne fecha inicial 
+     * @param dateTwo fecha final
+     * @return un objeto de tipo ArrayList con todas las reservaciones realizadas entre las fechas escogidas
+     */
+    public List<Reservacion> reporteTiempoServicio(String dateOne, String dateTwo){
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        Date datoUno = new Date();
+        Date datoDos = new Date();
+
+        try {
+            datoUno = formato.parse(dateOne);
+            datoDos = formato.parse(dateTwo);
+        } catch (ParseException evt) {
+            evt.printStackTrace();
+        }if (datoUno.before(datoDos)) {
+            return reservacionRepositorio.reservacionTiempoRepositorio(datoUno, datoDos);
+        }else{
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Metodo que permite obtener los clientes con mas reservaciones oredenandolos de mayor a menor
+     * @return una lista con los clientes de acuerdo a la cantidad de reservaciones de cada uno.
+     */
+    public List<ContadorCliente> reporteClienteServicio(){
+        return reservacionRepositorio.getTopClientes();
+    }
+
+
 }
